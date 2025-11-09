@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FileText } from "lucide-react";
 import './ReportPage.css'
+import API_BASE_URL from "./config";
 
 const ReportPage = () => {
   const [reports, setReports] = useState([]);
@@ -14,7 +15,7 @@ const ReportPage = () => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          `http://localhost:8080/api/answers?userId=${userId}`,
+          `${API_BASE_URL}/api/answers?userId=${userId}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setReports(response.data);

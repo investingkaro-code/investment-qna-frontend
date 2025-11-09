@@ -3,6 +3,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { HelpCircle, Send } from "lucide-react";
 import "./Questions.css"; // 👈 same theme CSS
+import API_BASE_URL from "./config";
 
 const QuestionsPage = () => {
   const { subCategoryId } = useParams();
@@ -16,7 +17,7 @@ const QuestionsPage = () => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          `http://localhost:8080/api/questions/by-subcategory/${subCategoryId}`,
+          `${API_BASE_URL}/api/questions/by-subcategory/${subCategoryId}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setQuestions(response.data);
@@ -37,7 +38,7 @@ const QuestionsPage = () => {
     const token = localStorage.getItem("token");
     try {
       await axios.post(
-        `http://localhost:8080/api/answers`,
+        `${API_BASE_URL}/api/answers`,
         {
           questionId,
           answerText: answers[questionId] || "",

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Folder, Layers } from "lucide-react";
+import { Folder, Layers, FileText } from "lucide-react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./CategoriesList.css";
+import API_BASE_URL from "./config";
 
 const CategoriesList = () => {
   const [categories, setCategories] = useState([]);
@@ -15,7 +16,7 @@ const CategoriesList = () => {
     const fetchCategories = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get("http://localhost:8080/api/categories", {
+        const response = await axios.get(`${API_BASE_URL}/api/categories`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setCategories(response.data);
@@ -49,6 +50,8 @@ const CategoriesList = () => {
 
       <div className="container">
         <div className="row g-4">
+
+          {/* Render all categories */}
           {categories.map((cat) => (
             <div
               key={cat.id}
@@ -76,6 +79,35 @@ const CategoriesList = () => {
               </div>
             </div>
           ))}
+
+          {/* 🔥 Add Hardcoded Report Page */}
+          <div
+            className="col-12 col-sm-6 col-lg-4 col-xl-3"
+            onClick={() => navigate("/report")}
+          >
+            <div className="category-card p-4 rounded-4 shadow-lg h-100 animate-float report-card">
+              <div className="d-flex align-items-center justify-content-between">
+                <div className="icon-bg">
+                  <FileText size={28} className="text-accent" />
+                </div>
+                <Layers size={20} className="text-light opacity-50" />
+              </div>
+
+              <div className="mt-4">
+                <h5 className="fw-bold text-white">Reports</h5>
+                <p className="text-secondary small mb-3">
+                  View your submitted answers and investment details
+                </p>
+              </div>
+
+              <div className="text-end mt-auto">
+                <span className="text-accent small fw-semibold view-link">
+                  View Reports →
+                </span>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
 

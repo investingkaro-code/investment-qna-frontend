@@ -3,6 +3,7 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { Layers, FolderOpen } from "lucide-react";
 import "./SubCategories.css"; // 👈 same theme as CategoryList
+import API_BASE_URL from "./config";
 
 const SubCategoriesPage = () => {
   const { categoryId } = useParams();
@@ -16,7 +17,7 @@ const SubCategoriesPage = () => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          `http://localhost:8080/api/subcategories/by-category/${categoryId}`,
+          `${API_BASE_URL}/api/subcategories/by-category/${categoryId}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setSubcategories(response.data);

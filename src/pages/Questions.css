@@ -1,0 +1,83 @@
+/* Background gradient */
+.categories-container {
+  min-height: 100vh;
+  background: radial-gradient(circle at top, #0f172a, #0b132b);
+  padding: 60px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Accent color */
+.text-accent {
+  color: #5bc0be !important;
+}
+.bg-accent {
+  background-color: #5bc0be !important;
+}
+
+/* Cards */
+.category-card {
+  background: rgba(28, 37, 65, 0.9);
+  border: 1px solid rgba(91, 192, 190, 0.25);
+  border-radius: 16px;
+  backdrop-filter: blur(8px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.category-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 20px rgba(91, 192, 190, 0.25);
+}
+
+/* Icon circle */
+.icon-bg {
+  background: rgba(91, 192, 190, 0.15);
+  padding: 10px;
+  border-radius: 12px;
+}
+
+/* Animations */
+.animate-float {
+  animation: floatAnim 6s ease-in-out infinite;
+}
+@keyframes floatAnim {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+.animate-fadeIn {
+  animation: fadeIn 1s ease-in-out;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Floating 3D background */
+.floating-bg-img {
+  position: absolute;
+  bottom: -40px;
+  right: -60px;
+  width: 400px;
+  opacity: 0.2;
+  animation: floatAnim 8s ease-in-out infinite;
+}
+
+/* Loading */
+.loading-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle at top, #0f172a, #0b132b);
+}
+
+/* Textarea */
+textarea {
+  resize: none;
+  color: #e2e8f0;
+}
+
+/* Submit button hover */
+button:hover:not(:disabled) {
+  box-shadow: 0 0 15px rgba(91, 192, 190, 0.3);
+}

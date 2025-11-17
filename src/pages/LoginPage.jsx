@@ -41,7 +41,7 @@ const LoginPage = () => {
             className="mb-2"
           />
           <h3 className="text-accent">InvestingKaro</h3>
-          <p className="text-muted">Login to your investment dashboard</p>
+          <p className="fw text-white">Login to your investment dashboard</p>
         </div>
 
         {error && <div className="alert alert-danger">{error}</div>}

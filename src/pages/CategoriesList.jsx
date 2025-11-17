@@ -45,7 +45,7 @@ const CategoriesList = () => {
     <div className="categories-container">
       <div className="text-center mb-5 animate-fadeIn">
         <h1 className="text-accent fw-bold display-5">Categories</h1>
-        <p className="text-muted">Explore your investment areas</p>
+        <p className="fw text-white">Explore your investment areas</p>
       </div>
 
       <div className="container">

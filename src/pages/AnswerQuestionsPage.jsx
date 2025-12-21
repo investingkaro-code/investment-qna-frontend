@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams, useLocation } from "react-router-dom";
-import { Layers } from "lucide-react";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { Layers, Home } from "lucide-react";
 import API_BASE_URL from "./config";
 import "./AnswerQuestions.css";
+import TopNav from "../components/TopNav";
 
 const AnswerQuestionsPage = () => {
   const { categoryId } = useParams();
   const location = useLocation();
+  const navigate = useNavigate();
   const stockSymbol = location.state?.stockSymbol;
 
   const [groupedQuestions, setGroupedQuestions] = useState({});
@@ -15,6 +17,11 @@ const AnswerQuestionsPage = () => {
   const [answers, setAnswers] = useState({});
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [progress, setProgress] = useState({
+    answeredCount: 0,
+    totalQuestions: 0
+  });
+
   const isEmpty = Object.values(answers).every(v => !v?.trim());
 
   // ===============================
@@ -36,7 +43,7 @@ const AnswerQuestionsPage = () => {
           setCategoryName(questions[0].categoryName);
         }
 
-        // 🔥 GROUP BY SUBCATEGORY
+        // GROUP BY SUBCATEGORY
         const grouped = questions.reduce((acc, q) => {
           if (!acc[q.subCategoryName]) {
             acc[q.subCategoryName] = [];
@@ -57,13 +64,64 @@ const AnswerQuestionsPage = () => {
   }, [categoryId]);
 
   // ===============================
-  // HANDLE ANSWER CHANGE
+  // FETCH RESUME ANSWERS + PROGRESS
+  // ===============================
+  useEffect(() => {
+    const fetchResumeAnswers = async () => {
+      if (!stockSymbol) return;
+
+      try {
+        const token = localStorage.getItem("token");
+
+        const res = await axios.get(
+          `${API_BASE_URL}/api/answers/resume`,
+          {
+            params: {
+              stockSymbol,
+              categoryId
+            },
+            headers: { Authorization: `Bearer ${token}` }
+          }
+        );
+
+        // Prefill answers
+        const prefilled = {};
+        res.data.answers.forEach(a => {
+          prefilled[a.questionId] = a.answerText;
+        });
+
+        setAnswers(prefilled);
+        setProgress({
+          answeredCount: res.data.answeredCount,
+          totalQuestions: res.data.totalQuestions
+        });
+
+      } catch (err) {
+        console.error("Failed to fetch resume answers", err);
+      }
+    };
+
+    fetchResumeAnswers();
+  }, [stockSymbol, categoryId]);
+
+  // ===============================
+  // HANDLE ANSWER CHANGE (LIVE PROGRESS)
   // ===============================
   const handleChange = (questionId, value) => {
-    setAnswers(prev => ({
-      ...prev,
-      [questionId]: value
-    }));
+    setAnswers(prev => {
+      const updated = { ...prev, [questionId]: value };
+
+      const answeredCount = Object.values(updated)
+        .filter(v => v && v.trim().length > 0)
+        .length;
+
+      setProgress(p => ({
+        ...p,
+        answeredCount
+      }));
+
+      return updated;
+    });
   };
 
   // ===============================
@@ -87,7 +145,7 @@ const AnswerQuestionsPage = () => {
         payload,
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      setAnswers({});
+
       alert("Answers saved successfully");
     } catch (err) {
       console.error(err);
@@ -98,7 +156,7 @@ const AnswerQuestionsPage = () => {
   };
 
   // ===============================
-  // LOADING STATE (MATCH STOCKLIST)
+  // LOADING STATE
   // ===============================
   if (loading) {
     return (
@@ -118,11 +176,39 @@ const AnswerQuestionsPage = () => {
     <div className="categories-container">
 
       {/* PAGE HEADER */}
-      <div className="text-center mb-5 animate-fadeIn">
+      <div className="text-center mb-4 animate-fadeIn">
+              <TopNav
+        title=""
+      />
         <h1 className="text-accent fw-bold display-6">
           {stockSymbol}
         </h1>
         <p className="text-white-50">{categoryName}</p>
+      </div>
+
+      {/* PROGRESS BAR */}
+      <div className="container mb-4">
+        <div className="d-flex justify-content-between mb-1">
+          <span className="text-white-50">
+            Progress: {progress.answeredCount}/{progress.totalQuestions}
+          </span>
+          <span className="text-accent fw-semibold">
+            {progress.totalQuestions
+              ? Math.round((progress.answeredCount / progress.totalQuestions) * 100)
+              : 0}%
+          </span>
+        </div>
+
+        <div className="progress" style={{ height: "8px" }}>
+          <div
+            className="progress-bar bg-accent"
+            style={{
+              width: progress.totalQuestions
+                ? `${(progress.answeredCount / progress.totalQuestions) * 100}%`
+                : "0%"
+            }}
+          />
+        </div>
       </div>
 
       <div className="container">
@@ -141,10 +227,7 @@ const AnswerQuestionsPage = () => {
             {/* QUESTIONS */}
             <div className="row g-4">
               {questions.map((q, index) => (
-                <div
-                  key={q.id}
-                  className="col-12 col-lg-6"
-                >
+                <div key={q.id} className="col-12 col-lg-6">
                   <div
                     className="stock-card p-4 rounded-4 h-100 animate-float"
                     style={{ animationDelay: `${index * 0.05}s` }}
@@ -171,20 +254,18 @@ const AnswerQuestionsPage = () => {
 
         {/* SAVE BUTTON */}
         <div className="text-center mt-5">
-          
-        <button
-        onClick={handleSave}
-        disabled={saving || isEmpty}
-        className="btn btn-lg btn-accent px-5"
-        >
-
+          <button
+            onClick={handleSave}
+            disabled={saving || isEmpty}
+            className="btn btn-lg btn-accent px-5"
+          >
             {saving ? "Saving..." : "Save Answers"}
           </button>
         </div>
 
       </div>
 
-      {/* FLOATING BG (SAME AS STOCKLIST) */}
+      {/* FLOATING BACKGROUND */}
       <img
         src="https://cdn3d.iconscout.com/3d/premium/thumb/stock-market-analysis-5145478-4291692.png"
         alt="bg"

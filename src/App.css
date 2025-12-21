@@ -40,3 +40,14 @@
 .read-the-docs {
   color: #888;
 }
+
+.btn-outline-accent {
+  color: #00ffd0;
+  border: 1px solid rgba(0, 255, 208, 0.4);
+  background: transparent;
+}
+
+.btn-outline-accent:hover {
+  background: rgba(0, 255, 208, 0.1);
+  color: #00ffd0;
+}

@@ -24,7 +24,7 @@ const LoginPage = () => {
       });
 
       login(res.data.token); // ✅ store token
-      navigate("/categories");
+      navigate("/dashboard");
     } catch (err) {
       setError("Invalid email or password");
     }

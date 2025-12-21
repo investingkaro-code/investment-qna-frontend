@@ -5,6 +5,7 @@ import { Folder, Layers, FileText } from "lucide-react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./CategoriesList.css";
 import API_BASE_URL from "./config";
+import TopNav from "../components/TopNav";
 
 const CategoriesList = () => {
   const [categories, setCategories] = useState([]);
@@ -43,6 +44,9 @@ const CategoriesList = () => {
 
   return (
     <div className="categories-container">
+      <TopNav
+        title="Investment Report"
+      />
       <div className="text-center mb-5 animate-fadeIn">
         <h1 className="text-accent fw-bold display-5">Categories</h1>
         <p className="fw text-white">Explore your investment areas</p>
@@ -81,7 +85,7 @@ const CategoriesList = () => {
           ))}
 
           {/* 🔥 Add Hardcoded Report Page */}
-          <div
+          {/* <div
             className="col-12 col-sm-6 col-lg-4 col-xl-3"
             onClick={() => navigate("/report")}
           >
@@ -106,7 +110,7 @@ const CategoriesList = () => {
                 </span>
               </div>
             </div>
-          </div>
+          </div> */}
 
         </div>
       </div>

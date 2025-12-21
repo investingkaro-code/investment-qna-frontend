@@ -4,6 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { TrendingUp, Layers } from "lucide-react";
 import API_BASE_URL from "./config";
 import "./StockList.css";
+import TopNav from "../components/TopNav";
 
 const StockListPage = () => {
   const { categoryId } = useParams();
@@ -54,7 +55,11 @@ const StockListPage = () => {
 
   return (
     <div className="categories-container">
+      <TopNav
+        title="Investment Report"
+      />
       <div className="text-center mb-4 animate-fadeIn">
+        
         <h1 className="text-accent fw-bold display-6">Stocks</h1>
         <p className="text-white-50">Select a stock to continue</p>
 

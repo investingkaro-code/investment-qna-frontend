@@ -3,6 +3,7 @@ import axios from "axios";
 import { jsPDF } from "jspdf";
 import API_BASE_URL from "./config";
 import "./ReportPage.css";
+import TopNav from "../components/TopNav";
 
 const ReportPage = () => {
   const [reports, setReports] = useState([]);
@@ -105,6 +106,10 @@ const ReportPage = () => {
 
   return (
     <div className="report-page">
+      <TopNav
+        title="Investment Report"
+      />
+
       <div className="container">
 
         {/* HEADER WITH FULL REPORT DOWNLOAD */}

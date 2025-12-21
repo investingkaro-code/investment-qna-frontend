@@ -6,12 +6,14 @@ import QuestionsPage from "./pages/QuestionsPage";
 import ReportPage from "./pages/ReportPage";
 import StocksListPage from "./pages/StockListPage";
 import AnswerQuestionsPage from "./pages/AnswerQuestionsPage";
+import DashboardPage from "./pages/DashboardPage";
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<LoginPage />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/categories" element={<CategoriesList />} />
         <Route path="/category/stocklist/:categoryId" element={<StocksListPage />} />
         <Route path="/answer/:categoryId" element={<AnswerQuestionsPage />} />

@@ -4,6 +4,8 @@ import CategoriesList from "./pages/CategoriesList";
 import SubCategoriesPage from "./pages/SubCategoriesPage";
 import QuestionsPage from "./pages/QuestionsPage";
 import ReportPage from "./pages/ReportPage";
+import StocksListPage from "./pages/StockListPage";
+import AnswerQuestionsPage from "./pages/AnswerQuestionsPage";
 
 function App() {
   return (
@@ -11,7 +13,8 @@ function App() {
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/categories" element={<CategoriesList />} />
-        <Route path="/category/:categoryId" element={<SubCategoriesPage />} />
+        <Route path="/category/stocklist/:categoryId" element={<StocksListPage />} />
+        <Route path="/answer/:categoryId" element={<AnswerQuestionsPage />} />
         <Route path="/subcategory/:subCategoryId" element={<QuestionsPage />} />
         <Route path="/report" element={<ReportPage />} />
       </Routes>

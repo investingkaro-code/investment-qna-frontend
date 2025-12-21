@@ -1,124 +1,115 @@
-.report-container {
+.report-page {
   min-height: 100vh;
   background: radial-gradient(circle at top, #0f172a, #0b132b);
-  padding: 60px 0;
-  position: relative;
-  overflow: hidden;
+  color: #e5e7eb;
+  padding: 40px 0;
 }
 
-/* Accent color */
-.text-accent {
-  color: #5bc0be !important;
+.report-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
 }
 
-/* Card styling */
-.category-card {
-  background: rgba(28, 37, 65, 0.9);
-  border: 1px solid rgba(91, 192, 190, 0.25);
-  border-radius: 16px;
-  backdrop-filter: blur(8px);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+.report-title {
+  font-size: 36px;
+  font-weight: 700;
+  color: #5bc0be;
+}
+
+.btn-download, .btn-download-small {
+  background-color: #5bc0be;
+  color: #0f172a;
+  border: none;
+  padding: 8px 18px;
+  font-weight: 600;
+  border-radius: 6px;
   cursor: pointer;
+  transition: all 0.3s;
 }
 
-.category-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 10px 20px rgba(91, 192, 190, 0.25);
+.btn-download:hover, .btn-download-small:hover {
+  background-color: #3da8b5;
 }
 
-/* Icon circle */
-.icon-bg {
-  background: rgba(91, 192, 190, 0.15);
-  padding: 10px;
+.stock-section {
+  margin-bottom: 50px;
+  padding: 15px;
+  background: rgba(28, 37, 65, 0.85);
   border-radius: 12px;
 }
 
-/* Hover link */
-.view-link:hover {
-  text-decoration: underline;
+.stock-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
-/* Animations */
-.animate-float {
-  animation: floatAnim 6s ease-in-out infinite;
-}
-@keyframes floatAnim {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+.stock-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #00ffd0;
 }
 
-.animate-fadeIn {
-  animation: fadeIn 1s ease-in-out;
-}
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+.subcategory-section {
+  margin-bottom: 20px;
+  padding-left: 10px;
 }
 
-/* Floating background */
-.floating-bg-img {
-  position: absolute;
-  bottom: -40px;
-  right: -60px;
-  width: 400px;
-  opacity: 0.2;
-  animation: floatAnim 8s ease-in-out infinite;
+.subcategory-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #93c5fd;
+  margin-bottom: 10px;
 }
 
-/* Loading container */
-.loading-container {
+.qa-block {
+  margin-bottom: 12px;
+  padding-left: 12px;
+  border-left: 3px solid rgba(91, 192, 190, 0.4);
+}
+
+.question-text {
+  font-weight: 600;
+  color: #e5e7eb;
+  margin-bottom: 4px;
+}
+
+.answer-text {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #d1d5db;
+  white-space: pre-line;
+}
+
+.stock-divider {
+  margin-top: 20px;
+  border: 1px dashed rgba(91, 192, 190, 0.3);
+}
+
+.report-loading {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   background: radial-gradient(circle at top, #0f172a, #0b132b);
+  color: #5bc0be;
 }
 
-
-.answer-container {
-  background: rgba(91, 192, 190, 0.08);
-  border-left: 4px solid #5be9d6;
-  padding: 10px 14px;
-  border-radius: 10px;
-  margin-top: 8px;
-  animation: fadeInAnswer 0.8s ease-in-out;
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+  border-width: 0.35rem;
+  border-color: #5bc0be transparent #5bc0be transparent;
+  border-style: double;
+  border-radius: 50%;
+  animation: spinner 1.2s linear infinite;
 }
 
-.answer-label {
-  color: #8ef9f3;
-  font-weight: 600;
-  font-size: 1rem;
-  display: block;
-  margin-bottom: 4px;
-  letter-spacing: 0.3px;
-}
-
-.answer-text {
-  color: #eef0f0; /* bright, readable on dark background */
-  font-size: 1.05rem;
-  line-height: 1.6;
-  white-space: pre-line;
-  font-weight: 500;
-}
-
-@keyframes fadeInAnswer {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-
-.category-card {
-  background: rgba(28, 37, 65, 0.9);
-  border: 1px solid rgba(91, 192, 190, 0.25);
-  backdrop-filter: blur(8px);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
-  box-shadow: 0 0 12px rgba(91, 192, 190, 0.05);
+@keyframes spinner {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

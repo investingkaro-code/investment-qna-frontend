@@ -56,7 +56,7 @@ const CategoriesList = () => {
             <div
               key={cat.id}
               className="col-12 col-sm-6 col-lg-4 col-xl-3"
-              onClick={() => navigate(`/category/${cat.id}`)}
+              onClick={() => navigate(`/category/stocklist/${cat.id}`)}
             >
               <div className="category-card p-4 rounded-4 shadow-lg h-100 animate-float">
                 <div className="d-flex align-items-center justify-content-between">

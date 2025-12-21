@@ -1,0 +1,76 @@
+.stock-card {
+  background: linear-gradient(145deg, #121212, #1a1a1a);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.35s ease;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.stock-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+}
+
+.icon-bg {
+  width: 46px;
+  height: 46px;
+  background: rgba(0, 255, 200, 0.08);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bg-accent-soft {
+  background: rgba(0, 255, 200, 0.15);
+}
+
+.view-link {
+  opacity: 0.85;
+  transition: opacity 0.3s ease;
+}
+
+.stock-card:hover .view-link {
+  opacity: 1;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+}
+
+.pagination-container button {
+  background: #121212;
+  color: #00ffd0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 8px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.pagination-container button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.search-container {
+  display: flex;
+  justify-content: center;
+}
+
+.search-input {
+  max-width: 400px;
+  border-radius: 12px;
+  padding: 10px 15px;
+  background-color: #1a1a1a;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}

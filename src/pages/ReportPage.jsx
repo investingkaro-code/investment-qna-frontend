@@ -2,36 +2,60 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { jsPDF } from "jspdf";
 import API_BASE_URL from "./config";
-import "./ReportPage.css";
 import TopNav from "../components/TopNav";
+import { toast } from "react-toastify";
+import "./ReportPage.css";
+
+const categorizeAnswers = (stock) => {
+  const overview = [];
+  const metrics = [];
+  const conclusion = [];
+
+  stock.subcategories.forEach((sub) => {
+    sub.questions.forEach((q) => {
+      const text = q.answerText || "—";
+      const name = sub.subCategoryName.toLowerCase();
+
+      if (name.includes("overview") || name.includes("business")) {
+        overview.push(text);
+      } else if (name.includes("metric") || name.includes("financial")) {
+        metrics.push(text);
+      } else if (name.includes("conclusion") || name.includes("summary")) {
+        conclusion.push(text);
+      } else {
+        overview.push(text);
+      }
+    });
+  });
+
+  return { overview, metrics, conclusion };
+};
 
 const ReportPage = () => {
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchReport = async () => {
+    const fetchReports = async () => {
       try {
         const token = localStorage.getItem("token");
         const res = await axios.get(`${API_BASE_URL}/api/reports`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setReports(res.data);
-      } catch (e) {
-        console.error(e);
+      } catch (err) {
+        console.error(err);
+        toast.error("Failed to fetch reports");
       } finally {
         setLoading(false);
       }
     };
-    fetchReport();
+    fetchReports();
   }, []);
 
-  // =========================
-  // Download PDF Programmatically
-  // =========================
   const downloadPDF = (stock = null) => {
     const pdf = new jsPDF("p", "mm", "a4");
-    let y = 20; // initial vertical position
+    let y = 20;
 
     pdf.setFontSize(20);
     pdf.setTextColor(28, 37, 65);
@@ -41,42 +65,46 @@ const ReportPage = () => {
     const data = stock ? [stock] : reports;
 
     data.forEach((s) => {
+      const { overview, metrics, conclusion } = categorizeAnswers(s);
+
       pdf.setFontSize(16);
       pdf.setTextColor(0, 128, 128);
       pdf.text(`Stock: ${s.stockSymbol}`, 10, y);
-      y += 8;
+      y += 10;
 
-      s.subcategories.forEach((sub) => {
+      const sections = [
+        { title: "Overview", content: overview },
+        { title: "Metrics", content: metrics },
+        { title: "Conclusion", content: conclusion },
+      ];
+
+      sections.forEach((sec) => {
         pdf.setFontSize(14);
         pdf.setTextColor(0, 102, 204);
-        pdf.text(sub.subCategoryName, 12, y);
+        pdf.text(sec.title, 12, y);
         y += 7;
 
-        sub.questions.forEach((q) => {
+        sec.content.forEach((txt) => {
           pdf.setFontSize(12);
           pdf.setTextColor(0, 0, 0);
-          pdf.text(`Q: ${q.questionText}`, 14, y);
+          pdf.text(txt, 14, y);
           y += 6;
 
-          pdf.setTextColor(80, 80, 80);
-          pdf.text(`A: ${q.answerText || "—"}`, 16, y);
-          y += 8;
-
-          // Add page if we reach bottom
           if (y > 280) {
             pdf.addPage();
             y = 20;
           }
         });
 
-        y += 4; // space between subcategories
+        y += 5;
       });
 
-      y += 8; // space between stocks
+      y += 8;
       pdf.setDrawColor(200);
       pdf.setLineWidth(0.5);
       pdf.line(10, y, 200, y);
       y += 10;
+
       if (y > 280) {
         pdf.addPage();
         y = 20;
@@ -87,16 +115,33 @@ const ReportPage = () => {
     pdf.save(fileName);
   };
 
+  const handleDelete = async (stockSymbol) => {
+    if (!window.confirm(`Are you sure you want to delete the report for ${stockSymbol}?`)) return;
+
+    try {
+      const token = localStorage.getItem("token");
+      await axios.delete(`${API_BASE_URL}/api/reports/${stockSymbol}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      setReports((prev) => prev.filter((r) => r.stockSymbol !== stockSymbol));
+      toast.success(`🗑️ ${stockSymbol} deleted successfully`);
+    } catch (err) {
+      console.error(err);
+      toast.error("❌ Failed to delete report");
+    }
+  };
+
   if (loading) {
     return (
       <div className="report-loading">
         <div className="spinner-border text-accent" />
-        <p className="mt-3">Loading your investment report…</p>
+        <p className="mt-3">Loading your investment reports…</p>
       </div>
     );
   }
 
-  if (reports.length === 0) {
+  if (!reports.length) {
     return (
       <div className="report-loading">
         <p>No reports available yet.</p>
@@ -106,44 +151,39 @@ const ReportPage = () => {
 
   return (
     <div className="report-page">
-      <TopNav
-        title="Investment Report"
-      />
+      <TopNav title="Investment Reports" />
 
       <div className="container">
+        {reports.map((stock) => {
+          const { overview, metrics, conclusion } = categorizeAnswers(stock);
 
-        {/* HEADER WITH FULL REPORT DOWNLOAD */}
-        <div className="report-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "40px" }}>
-          <h1 className="report-title">Investment Research Report</h1>
-          <button className="btn-download" onClick={() => downloadPDF()}>
-            Download Full Report
-          </button>
-        </div>
-
-        {/* REPORT DISPLAY */}
-        {reports.map((stock) => (
-          <section key={stock.stockSymbol} className="stock-section">
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <h2 className="stock-title">{stock.stockSymbol}</h2>
-              <button className="btn-download-small" onClick={() => downloadPDF(stock)}>
-                Download Stock
-              </button>
-            </div>
-
-            {stock.subcategories.map((sub) => (
-              <div key={sub.subCategoryName} className="subcategory-section">
-                <h3 className="subcategory-title">{sub.subCategoryName}</h3>
-
-                {sub.questions.map((q, idx) => (
-                  <div key={idx} className="qa-block">
-                    <p className="question-text">{q.questionText}</p>
-                    <p className="answer-text">{q.answerText || "—"}</p>
-                  </div>
-                ))}
+          return (
+            <div key={stock.stockSymbol} className="report-card">
+              <div className="d-flex justify-content-between align-items-center mb-3">
+                <h2 className="stock-title">{stock.stockSymbol}</h2>
+                <div className="d-flex gap-2">
+                  <button className="btn-download-small" onClick={() => downloadPDF(stock)}>Download</button>
+                  <button className="btn btn-sm btn-outline-danger" onClick={() => handleDelete(stock.stockSymbol)}>Delete</button>
+                </div>
               </div>
-            ))}
-          </section>
-        ))}
+
+              <div className="report-grid">
+                <div className="report-box overview">
+                  <h4>Overview</h4>
+                  {overview.map((ans, idx) => <p key={idx}>{ans}</p>)}
+                </div>
+                <div className="report-box metrics">
+                  <h4>Metrics</h4>
+                  {metrics.map((ans, idx) => <p key={idx}>{ans}</p>)}
+                </div>
+                <div className="report-box conclusion">
+                  <h4>Conclusion</h4>
+                  {conclusion.map((ans, idx) => <p key={idx}>{ans}</p>)}
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

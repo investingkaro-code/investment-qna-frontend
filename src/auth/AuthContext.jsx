@@ -1,13 +1,22 @@
-import React, { createContext, useState, useContext } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [token, setToken] = useState(localStorage.getItem("token") || null);
+  const [token, setToken] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const login = (jwtToken) => {
-    localStorage.setItem("token", jwtToken);
-    setToken(jwtToken);
+  useEffect(() => {
+    const savedToken = localStorage.getItem("token");
+    if (savedToken) {
+      setToken(savedToken);
+    }
+    setLoading(false);
+  }, []);
+
+  const login = (jwt) => {
+    localStorage.setItem("token", jwt);
+    setToken(jwt);
   };
 
   const logout = () => {
@@ -15,9 +24,11 @@ export const AuthProvider = ({ children }) => {
     setToken(null);
   };
 
-  const value = { token, login, logout, isAuthenticated: !!token };
-
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ token, login, logout }}>
+      {!loading && children}
+    </AuthContext.Provider>
+  );
 };
 
 export const useAuth = () => useContext(AuthContext);

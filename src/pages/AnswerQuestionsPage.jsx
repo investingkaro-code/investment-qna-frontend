@@ -5,6 +5,7 @@ import { Layers, Home } from "lucide-react";
 import API_BASE_URL from "./config";
 import "./AnswerQuestions.css";
 import TopNav from "../components/TopNav";
+import { toast } from "react-toastify";
 
 const AnswerQuestionsPage = () => {
   const { categoryId } = useParams();
@@ -146,10 +147,10 @@ const AnswerQuestionsPage = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      alert("Answers saved successfully");
+      toast.success(`Answers saved successfully`);
     } catch (err) {
       console.error(err);
-      alert("Failed to save answers");
+      toast.error("Failed to save answers");
     } finally {
       setSaving(false);
     }

@@ -1,0 +1,77 @@
+.dashboard-metrics-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.dashboard-metrics-card {
+  background: rgba(28, 37, 65, 0.9);
+  padding: 20px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 650px;
+  color: #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s;
+}
+
+.dashboard-metrics-card:hover {
+  transform: translateY(-5px);
+}
+
+.stock-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: #5bc0be;
+  text-align: center;
+}
+
+.metrics-row {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  gap: 15px;
+}
+
+.metric-box {
+  background: rgba(91, 192, 190, 0.2);
+  padding: 15px 20px;
+  border-radius: 12px;
+  text-align: center;
+  flex: 1;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.metric-box:hover {
+  background: rgba(91, 192, 190, 0.4);
+  transform: translateY(-4px);
+}
+
+.metric-count {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 5px 0;
+}
+
+.metric-label {
+  font-size: 14px;
+  color: #d1d5db;
+}
+
+.metric-box.overview .icon {
+  color: #3da8b5;
+}
+
+.metric-box.metrics .icon {
+  color: #00ffd0;
+}
+
+.metric-box.conclusion .icon {
+  color: #5bc0be;
+}

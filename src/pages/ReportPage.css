@@ -113,3 +113,72 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+.report-page {
+  min-height: 100vh;
+  background: radial-gradient(circle at top, #0f172a, #0b132b);
+  color: #e5e7eb;
+  padding: 40px 0;
+}
+
+.report-card {
+  margin-bottom: 40px;
+  padding: 20px;
+  background: rgba(28, 37, 65, 0.85);
+  border-radius: 12px;
+}
+
+.stock-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #00ffd0;
+}
+
+.report-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  margin-top: 15px;
+}
+
+.report-box {
+  background: rgba(0,0,0,0.15);
+  border-radius: 10px;
+  padding: 15px;
+  min-height: 120px;
+  overflow-wrap: break-word;
+}
+
+.report-box h4 {
+  margin-bottom: 8px;
+  color: #5bc0be;
+}
+
+.btn-download-small {
+  background-color: #5bc0be;
+  color: #0f172a;
+  border: none;
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-download-small:hover {
+  background-color: #3da8b5;
+}
+
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+  border-width: 0.35rem;
+  border-color: #5bc0be transparent #5bc0be transparent;
+  border-style: double;
+  border-radius: 50%;
+  animation: spinner 1.2s linear infinite;
+}
+
+@keyframes spinner {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

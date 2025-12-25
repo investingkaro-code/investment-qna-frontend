@@ -1,17 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./LoginPage.css"
 import API_BASE_URL from "./config";
+import { GoogleLogin } from "@react-oauth/google";
+import { toast } from "react-toastify";
 
 const LoginPage = () => {
-  const { login } = useAuth();
+  const { login, token } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (token) {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [token, navigate]);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -74,6 +83,28 @@ const LoginPage = () => {
           <button type="submit" className="btn btn-primary w-100">
             Login
           </button>
+          <div className="mt-3 text-center">
+            <GoogleLogin
+              onSuccess={async (credentialResponse) => {
+                try {
+                  const res = await axios.post(
+                    `${API_BASE_URL}/api/auth/google`,
+                    {
+                      token: credentialResponse.credential,
+                    }
+                  );
+
+                  login(res.data.token);
+                  toast.success("Logged in with Google");
+                  navigate("/dashboard");
+                } catch (err) {
+                  toast.error("Google login failed");
+                }
+              }}
+              onError={() => toast.error("Google Sign-In failed")}
+            />
+          </div>
+
         </form>
 
         <div className="text-center mt-3">

@@ -51,3 +51,71 @@
   background: rgba(0, 255, 208, 0.1);
   color: #00ffd0;
 }
+
+/* ===== Custom Toast Theme ===== */
+.custom-toast {
+  background: rgba(28, 37, 65, 0.95);
+  color: #e5e7eb;
+  border-radius: 10px;
+  border-left: 4px solid #00ffd0;
+  box-shadow: 0 10px 30px rgba(0, 255, 208, 0.15);
+  font-weight: 500;
+}
+
+/* Success */
+.Toastify__toast--success.custom-toast {
+  border-left-color: #00ffd0;
+}
+
+/* Error */
+.Toastify__toast--error.custom-toast {
+  border-left-color: #ef4444;
+}
+
+/* Progress bar */
+.custom-toast-progress {
+  background: linear-gradient(
+    90deg,
+    #5bc0be,
+    #00ffd0
+  );
+}
+
+/* Close button */
+.Toastify__close-button {
+  color: #9ca3af;
+}
+.Toastify__close-button:hover {
+  color: #00ffd0;
+}
+.dashboard-metrics {
+  display: flex;
+  justify-content: space-around;
+  margin: 30px 0;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.metric-card {
+  background: rgba(28, 37, 65, 0.85);
+  color: #e5e7eb;
+  padding: 20px 30px;
+  border-radius: 10px;
+  text-align: center;
+  flex: 1 1 200px;
+  transition: all 0.3s;
+}
+
+.metric-card:hover {
+  background: rgba(28, 37, 65, 1);
+  transform: translateY(-5px);
+}
+.metric-card h3 {
+  font-size: 28px;
+  color: #00ffd0;
+}
+.metric-card p {
+  margin-top: 5px;
+  font-size: 16px;
+  color: #93c5fd;
+}

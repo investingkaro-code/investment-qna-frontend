@@ -10,6 +10,8 @@ import DashboardPage from "./pages/DashboardPage";
 import ProtectedRoute from "./auth/ProtectedRoute";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import WatchlistPage from "./pages/WatchlistPage";
+
 
 function App() {
   return (
@@ -73,7 +75,16 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+          path="/watchlist"
+            element={
+              <ProtectedRoute>
+                <WatchlistPage />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
+        
       </Router>
 
       <ToastContainer

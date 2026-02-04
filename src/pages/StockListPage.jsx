@@ -1,42 +1,45 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
-import { TrendingUp, Layers } from "lucide-react";
+import { TrendingUp, Heart } from "lucide-react"; 
 import API_BASE_URL from "./config";
 import "./StockList.css";
 import TopNav from "../components/TopNav";
 
 const StockListPage = () => {
   const { categoryId } = useParams();
+  const navigate = useNavigate();
+
   const [stocks, setStocks] = useState([]);
+  const [favorites, setFavorites] = useState(new Set());
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
-  const navigate = useNavigate();
+
   const PAGE_SIZE = 20;
 
-  // 🔹 Debounce the search input
+  /* ---------------- SEARCH DEBOUNCE ---------------- */
   useEffect(() => {
     const handler = setTimeout(() => {
-      setDebouncedSearch(search); // only update after typing stops
-      setPage(0); // reset page on new search
+      setDebouncedSearch(search);
+      setPage(0);
     }, 400);
 
     return () => clearTimeout(handler);
   }, [search]);
 
-  // 🔹 Fetch stocks whenever page or debouncedSearch changes
+  /* ---------------- FETCH STOCKS ---------------- */
   useEffect(() => {
     const fetchStocks = async () => {
       setLoading(true);
       try {
         const token = localStorage.getItem("token");
         const res = await axios.get(
-                    `${API_BASE_URL}/api/stocks?page=${page}&size=${PAGE_SIZE}&search=${debouncedSearch}`,
-                    { headers: { Authorization: `Bearer ${token}` } }
-                    );
+          `${API_BASE_URL}/api/stocks?page=${page}&size=${PAGE_SIZE}&search=${debouncedSearch}`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
 
         setStocks(res.data.data);
         setTotalPages(res.data.totalPages);
@@ -50,20 +53,74 @@ const StockListPage = () => {
     fetchStocks();
   }, [page, debouncedSearch, categoryId]);
 
+  /* ---------------- FETCH FAVORITES ---------------- */
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const res = await axios.get(`${API_BASE_URL}/favorites`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        const favSet = new Set(
+          (res.data || []).map((f) => f.stockSymbol)
+        );
+        setFavorites(favSet);
+      } catch (e) {
+        console.error("Failed to fetch favorites", e);
+      }
+    };
+
+    fetchFavorites();
+  }, []);
+
+  /* ---------------- TOGGLE FAVORITE ---------------- */
+  const toggleFavorite = async (e, stock) => {
+    e.stopPropagation();
+
+    const token = localStorage.getItem("token");
+    const isFav = favorites.has(stock.symbol);
+
+    try {
+      if (isFav) {
+        await axios.delete(
+          `${API_BASE_URL}/favorites/${stock.symbol}`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+
+        setFavorites((prev) => {
+          const copy = new Set(prev);
+          copy.delete(stock.symbol);
+          return copy;
+        });
+      } else {
+        await axios.post(
+          `${API_BASE_URL}/favorites`,
+          {
+            stockSymbol: stock.symbol,
+            stockName: stock.name,
+          },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+
+        setFavorites((prev) => new Set(prev).add(stock.symbol));
+      }
+    } catch (err) {
+      console.error("Favorite toggle failed", err);
+    }
+  };
+
   const handlePrev = () => setPage((p) => Math.max(p - 1, 0));
   const handleNext = () => setPage((p) => Math.min(p + 1, totalPages - 1));
 
   return (
     <div className="categories-container">
-      <TopNav
-        title="Investment Report"
-      />
-      <div className="text-center mb-4 animate-fadeIn">
-        
+      <TopNav title="Investment Report" />
+
+      <div className="text-center mb-4">
         <h1 className="text-accent fw-bold display-6">Stocks</h1>
         <p className="text-white-50">Select a stock to continue</p>
 
-        {/* 🔹 Search Input */}
         <div className="search-container mt-3">
           <input
             type="text"
@@ -87,18 +144,28 @@ const StockListPage = () => {
               <div
                 key={stock.symbol || index}
                 className="col-12 col-sm-6 col-lg-4 col-xl-3"
-                // onClick={() => navigate(`/category/${categoryId}`)}
-                onClick={() => navigate(`/answer/${categoryId}`, {state: { stockSymbol: stock.symbol }})}
+                onClick={() =>
+                  navigate(`/answer/${categoryId}`, {
+                    state: { stockSymbol: stock.symbol },
+                  })
+                }
               >
-                <div
-                  className="stock-card p-4 rounded-4 h-100 animate-float"
-                  style={{ animationDelay: `${index * 0.1}s` }}
-                >
+                <div className="stock-card p-4 rounded-4 h-100">
                   <div className="d-flex justify-content-between align-items-center">
                     <div className="icon-bg">
                       <TrendingUp size={26} className="text-accent" />
                     </div>
-                    <Layers size={18} className="text-light opacity-50" />
+
+                    <Heart
+                      size={20}
+                      onClick={(e) => toggleFavorite(e, stock)}
+                      className={
+                        favorites.has(stock.symbol)
+                          ? "text-danger"
+                          : "text-light opacity-50"
+                      }
+                      style={{ cursor: "pointer" }}
+                    />
                   </div>
 
                   <div className="mt-4">
@@ -109,7 +176,7 @@ const StockListPage = () => {
                   </div>
 
                   <div className="mt-auto text-end">
-                    <span className="text-accent small fw-semibold view-link">
+                    <span className="text-accent small fw-semibold">
                       View Subcategories →
                     </span>
                   </div>
@@ -124,7 +191,6 @@ const StockListPage = () => {
             </p>
           )}
 
-          {/* Pagination Controls */}
           {totalPages > 1 && (
             <div className="pagination-container mt-5">
               <button onClick={handlePrev} disabled={page === 0}>
@@ -143,12 +209,6 @@ const StockListPage = () => {
           )}
         </div>
       )}
-
-      <img
-        src="https://cdn3d.iconscout.com/3d/premium/thumb/stock-market-analysis-5145478-4291692.png"
-        alt="stocks bg"
-        className="floating-bg-img"
-      />
     </div>
   );
 };

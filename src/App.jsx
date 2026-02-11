@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import CategoriesList from "./pages/CategoriesList";
 import SubCategoriesPage from "./pages/SubCategoriesPage";
@@ -83,8 +83,8 @@ function App() {
               </ProtectedRoute>
             }
           />
-        </Routes>
-        
+        <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>   
       </Router>
 
       <ToastContainer

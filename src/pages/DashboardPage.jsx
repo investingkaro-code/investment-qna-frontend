@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { PlusCircle, FileText } from "lucide-react";
 import "./DashboardPage.css";
 import TopNav from "../components/TopNav";
-import DashboardMetrics from "../components/DashboardMetrics.jsx";
 import API_BASE_URL from "./config";
 
 const DashboardPage = () => {
@@ -37,69 +36,49 @@ const DashboardPage = () => {
           Start a new stock analysis or review your research
         </p>
 
-        {/* ACTION CARDS */}
         <div className="dashboard-actions">
+          {/* New Analysis */}
           <div
             className="dashboard-card"
             onClick={() => navigate("/categories")}
           >
-            <PlusCircle size={36} className="text-accent mb-3" />
-            <h3>Start New Analysis</h3>
-            <p>Select category → stock → answer questions</p>
+            <PlusCircle size={32} className="text-accent" />
+            <h3>New Analysis</h3>
+            <p>Analyze a stock step by step</p>
           </div>
 
+          {/* Reports */}
           <div
             className="dashboard-card"
             onClick={() => navigate("/report")}
           >
-            <FileText size={36} className="text-accent mb-3" />
-            <h3>View Reports</h3>
-            <p>See your completed investment research</p>
+            <FileText size={32} className="text-accent" />
+            <h3>Reports</h3>
+            <p>View completed research</p>
           </div>
-        </div>
 
-        {/* WATCHLIST SECTION */}
-        <div className="dashboard-section mt-5">
-          <h3 className="text-white fw-bold mb-3">Watchlist</h3>
+          {/* Watchlist */}
+          <div
+            className="dashboard-card"
+            onClick={() => navigate("/watchlist")}
+          >
+            <h3>Watchlist</h3>
 
-          {watchlist.length === 0 ? (
-            // EMPTY STATE
-            <div
-              className="dashboard-card text-center"
-              onClick={() => navigate("/watchlist")}
-              style={{ cursor: "pointer" }}
-            >
-              <p className="text-white-50 mb-2">
-                No stocks added to watchlist
-              </p>
-              <p className="text-accent small mb-0">
-                You can add stocks from the Stock List page
-              </p>
-            </div>
-          ) : (
-            // PREVIEW STATE
-            <div
-              className="dashboard-card"
-              onClick={() => navigate("/watchlist")}
-              style={{ cursor: "pointer" }}
-            >
-              {watchlist.slice(0, 3).map((item) => (
-                <div key={item.stockSymbol} className="mb-2">
-                  <strong className="text-white">{item.stockName}</strong>
-                  <span className="text-white-50 ms-2">
-                    ({item.stockSymbol})
-                  </span>
+            {watchlist.length === 0 ? (
+              <p className="muted">No stocks added</p>
+            ) : (
+              watchlist.slice(0, 3).map((item) => (
+                <div key={item.stockSymbol} className="watchlist-item">
+                  <strong>{item.stockName}</strong>
+                  <span>({item.stockSymbol})</span>
                 </div>
-              ))}
+              ))
+            )}
 
-              <p className="text-accent small mt-2 mb-0">
-                View full watchlist →
-              </p>
-            </div>
-          )}
+            <span className="link-text">View all →</span>
+          </div>
+
         </div>
-
-        <DashboardMetrics />
       </div>
     </div>
   );

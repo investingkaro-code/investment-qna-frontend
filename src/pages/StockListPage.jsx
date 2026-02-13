@@ -30,7 +30,6 @@ const StockListPage = () => {
     return () => clearTimeout(handler);
   }, [search]);
 
-  /* ---------------- FETCH STOCKS ---------------- */
   useEffect(() => {
     const fetchStocks = async () => {
       setLoading(true);
@@ -53,7 +52,6 @@ const StockListPage = () => {
     fetchStocks();
   }, [page, debouncedSearch, categoryId]);
 
-  /* ---------------- FETCH FAVORITES ---------------- */
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
@@ -74,7 +72,6 @@ const StockListPage = () => {
     fetchFavorites();
   }, []);
 
-  /* ---------------- TOGGLE FAVORITE ---------------- */
   const toggleFavorite = async (e, stock) => {
     e.stopPropagation();
 

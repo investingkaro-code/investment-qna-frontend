@@ -29,7 +29,7 @@ const TopNav = ({
           <div className="d-flex gap-2">
             {showBack && (
               <button
-                className="btn btn-outline-light"
+                className="nav-btn"
                 onClick={() => navigate(-1)}
               >
                 <ArrowLeft size={16} /> Back
@@ -37,23 +37,25 @@ const TopNav = ({
             )}
 
             <button
-              className="btn btn-outline-light"
+              className="nav-btn primary"
               onClick={() => navigate("/dashboard")}
             >
               <Home size={16} /> Dashboard
             </button>
           </div>
         ) : (
-          <div />  // <-- KEY: empty spacer removed
+          <div />
         )}
+
 
         {/* RIGHT CONTROLS */}
         <button
-          className="btn btn-outline-danger"
-          onClick={handleLogout}
-        >
-          <LogOut size={16} /> Logout
-        </button>
+            className="nav-btn danger"
+            onClick={handleLogout}
+          >
+            <LogOut size={16} /> Logout
+          </button>
+
 
       </div>
 

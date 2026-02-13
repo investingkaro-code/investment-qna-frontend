@@ -17,6 +17,50 @@
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
+/* ===== NAV BUTTONS (uniform) ===== */
+
+.nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid #e5e7eb;
+  background: #f8fafc;
+  color: #1f2937;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+/* hover */
+.nav-btn:hover {
+  background: #e5e7eb;
+}
+
+/* primary (Dashboard) */
+.nav-btn.primary {
+  background: #0d9488;
+  color: white;
+  border-color: #0d9488;
+}
+
+.nav-btn.primary:hover {
+  background: #0f766e;
+}
+
+/* danger (Logout) */
+.nav-btn.danger {
+  background: #fee2e2;
+  color: #b91c1c;
+  border-color: #fecaca;
+}
+
+.nav-btn.danger:hover {
+  background: #fecaca;
+}
+
 
 @keyframes logo-spin {
   from {

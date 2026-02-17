@@ -30,7 +30,7 @@ const WatchlistPage = () => {
   }, []);
 
   return (
-    <div className="categories-container">
+    <div className="page-bg">
       <TopNav title="Watchlist" />
 
       {loading ? (

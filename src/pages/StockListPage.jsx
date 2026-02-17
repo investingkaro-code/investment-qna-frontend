@@ -111,7 +111,7 @@ const StockListPage = () => {
   const handleNext = () => setPage((p) => Math.min(p + 1, totalPages - 1));
 
   return (
-    <div className="categories-container">
+    <div className="page-bg">
       <TopNav title="Investment Report" />
 
       <div className="text-center mb-4">

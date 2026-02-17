@@ -33,17 +33,17 @@ const CategoriesList = () => {
 
   if (loading)
     return (
-      <div className="loading-container">
+       <div className="loading-container">
         <div className="spinner-border text-accent" role="status"></div>
         <p className="mt-3 text-light">Loading categories...</p>
-      </div>
+        </div>
     );
 
   if (error)
     return <div className="text-center mt-5 text-danger fw-bold">{error}</div>;
 
   return (
-    <div className="categories-container">
+    <div className="page-bg">
       <TopNav
         title="Investment Report"
       />

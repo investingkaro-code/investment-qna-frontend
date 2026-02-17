@@ -1,14 +1,18 @@
-.answer-input {
-  background-color: #1a1a1a;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #ffffff;
-  border-radius: 12px;
-  min-height: 120px;
-  resize: vertical;
+.page-bg .answer-input {
+  background: #ffffff !important;
+  color: #0f172a !important;      /* keep text dark */
+  border: 1px solid #e5e7eb !important;
 }
 
-.answer-input::placeholder {
-  color: rgba(255, 255, 255, 0.5);
+.page-bg .answer-input:focus {
+  background: #ffffff !important;
+  color: #0f172a !important;      /* prevent white text on focus */
+  border-color: #cbd5f5 !important;
+  box-shadow: none !important;
+}
+
+.page-bg .answer-input::placeholder {
+  color: #94a3b8 !important;
 }
 
 .btn-accent {

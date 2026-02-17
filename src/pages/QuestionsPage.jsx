@@ -61,7 +61,7 @@ const QuestionsPage = () => {
     );
 
   return (
-    <div className="categories-container">
+    <div className="page-bg">
       <h1 className="text-center text-4xl font-bold text-accent mb-10 animate-fadeIn">
         Questions
       </h1>

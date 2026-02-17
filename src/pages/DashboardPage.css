@@ -1,3 +1,6 @@
+/* TOP NAV BUTTONS */
+
+
 .dashboard-actions {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -5,53 +8,96 @@
   margin-top: 32px;
 }
 
-/* CARD */
+
+.nav-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Base button */
+.nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #f8fafc;
+  color: #0f172a;
+  border: 1px solid #e5e7eb;
+  padding: 8px 14px;
+  border-radius: 999px; /* pill */
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
 .dashboard-card {
   background: #ffffff;
   border: 1px solid #e5e7eb;
-  border-radius: 16px;
+  border-radius: 18px;
   padding: 28px;
   min-height: 180px;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  overflow: hidden;
+
+  transition: transform 0.25s ease,
+              box-shadow 0.25s ease,
+              border-color 0.25s ease;
 }
 
+/* soft gradient glow layer */
+.dashboard-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    400px circle at top left,
+    rgba(13, 148, 136, 0.12),
+    transparent 40%
+  );
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+/* hover effect */
 .dashboard-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+  transform: translateY(-8px) scale(1.01);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.10);
+  border-color: #99f6e4;
 }
 
-/* HEADINGS */
-.dashboard-card h3 {
-  margin: 12px 0 6px;
-  font-size: 18px;
-  color: #0f172a; /* slate-900 */
+.dashboard-card:hover::before {
+  opacity: 1;
 }
 
-/* BODY TEXT */
-.dashboard-card p,
-.muted {
-  color: #475569; /* slate-600 */
-  font-size: 14px;
+
+
+/* Hover */
+.nav-btn:hover {
+  background: #ffffff;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  transform: translateY(-1px);
 }
 
-/* WATCHLIST */
-.watchlist-item {
-  font-size: 14px;
-  margin-top: 6px;
-  color: #1f2937;
+/* Primary (Dashboard) */
+.nav-btn.primary {
+  background: #0d9488;
+  color: white;
+  border: none;
 }
 
-.watchlist-item span {
-  color: #6b7280;
-  margin-left: 6px;
+.nav-btn.primary:hover {
+  background: #0f766e;
 }
 
-/* LINK */
-.link-text {
-  display: inline-block;
-  margin-top: 12px;
-  color: #0d9488; /* teal-600 */
-  font-size: 13px;
-  font-weight: 500;
+/* Danger (Logout) */
+.nav-btn.danger {
+  color: #dc2626;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+}
+
+.nav-btn.danger:hover {
+  background: #fee2e2;
 }

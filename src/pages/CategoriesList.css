@@ -1,7 +1,7 @@
 /* Background gradient */
-.categories-container {
+.page-bg {
   min-height: 100vh;
-  background: radial-gradient(circle at top, #0f172a, #0b132b);
+  background: radial-gradient(circle at top, #dadde3, #f4f4f6);
   padding: 60px 0;
   position: relative;
   overflow: hidden;
@@ -12,19 +12,36 @@
   color: #5bc0be !important;
 }
 
+.page-bg .category-card h5 {
+  color: #0f172a !important;   /* dark title */
+}
+
+.page-bg .category-card p {
+  color: #64748b !important;   /* muted description */
+}
+
+.page-bg .category-card .view-link {
+  color: #0d9488 !important;   /* accent link */
+}
+
+
 /* Cards */
-.category-card {
-  background: rgba(28, 37, 65, 0.9);
-  border: 1px solid rgba(91, 192, 190, 0.25);
-  backdrop-filter: blur(8px);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+.page-bg .category-card {
+  background: #ffffff !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 18px;
+  transition: transform 0.25s ease,
+              box-shadow 0.25s ease,
+              border-color 0.25s ease;
   cursor: pointer;
 }
 
-.category-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 10px 20px rgba(91, 192, 190, 0.2);
+.page-bg .category-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  border-color: #cbd5f5 !important;
 }
+
 
 /* Icon circle */
 .icon-bg {
@@ -85,5 +102,5 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: radial-gradient(circle at top, #0f172a, #0b132b);
+  background: radial-gradient(circle at top, #f3f4f6, #ffffff);
 }

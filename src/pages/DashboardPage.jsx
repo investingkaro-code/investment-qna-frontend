@@ -27,7 +27,7 @@ const DashboardPage = () => {
   }, []);
 
   return (
-    <div className="dashboard-page">
+    <div className="page-bg">
       <div className="container">
         <TopNav title="" />
 

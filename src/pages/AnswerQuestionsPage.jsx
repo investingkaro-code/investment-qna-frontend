@@ -161,7 +161,7 @@ const AnswerQuestionsPage = () => {
   // ===============================
   if (loading) {
     return (
-      <div className="categories-container">
+      <div className="page-bg">
         <div className="loading-container">
           <div className="spinner-border text-accent" />
           <p className="text-light mt-3">Loading questions...</p>
@@ -174,7 +174,7 @@ const AnswerQuestionsPage = () => {
   // RENDER
   // ===============================
   return (
-    <div className="categories-container">
+    <div className="page-bg">
 
       {/* PAGE HEADER */}
       <div className="text-center mb-4 animate-fadeIn">

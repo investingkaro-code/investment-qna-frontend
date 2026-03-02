@@ -6,6 +6,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./CategoriesList.css";
 import API_BASE_URL from "./config";
 import TopNav from "../components/TopNav";
+import API from "../api/api";
+
 
 const CategoriesList = () => {
   const [categories, setCategories] = useState([]);
@@ -17,7 +19,7 @@ const CategoriesList = () => {
     const fetchCategories = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get(`${API_BASE_URL}/api/categories`, {
+        const response = await API.get(`${API_BASE_URL}/api/categories`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setCategories(response.data);

@@ -3,6 +3,7 @@ import axios from "axios";
 import { FileText, BarChart2, CheckCircle } from "lucide-react";
 import API_BASE_URL from "../pages/config";
 import "./DashboardMetrics.css";
+import API from "../api/api";
 
 const DashboardMetrics = () => {
   const [metrics, setMetrics] = useState(null);
@@ -11,7 +12,7 @@ const DashboardMetrics = () => {
     const fetchMetrics = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get(`${API_BASE_URL}/api/reports/metrics`, {
+        const res = await API.get(`${API_BASE_URL}/api/reports/metrics`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setMetrics(res.data);

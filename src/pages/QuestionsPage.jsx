@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom";
 import { HelpCircle, Send } from "lucide-react";
 import "./Questions.css"; // 👈 same theme CSS
 import API_BASE_URL from "./config";
+import API from "../api/api";
+
 
 const QuestionsPage = () => {
   const { subCategoryId } = useParams();
@@ -16,7 +18,7 @@ const QuestionsPage = () => {
     const fetchQuestions = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get(
+        const response = await API.get(
           `${API_BASE_URL}/api/questions/by-subcategory/${subCategoryId}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );

@@ -5,6 +5,8 @@ import { PlusCircle, FileText } from "lucide-react";
 import "./DashboardPage.css";
 import TopNav from "../components/TopNav";
 import API_BASE_URL from "./config";
+import API from "../api/api";
+
 
 const DashboardPage = () => {
   const navigate = useNavigate();
@@ -14,7 +16,7 @@ const DashboardPage = () => {
     const fetchWatchlist = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get(`${API_BASE_URL}/favorites`, {
+        const res = await API.get(`${API_BASE_URL}/favorites`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setWatchlist(res.data || []);

@@ -5,6 +5,8 @@ import { TrendingUp, Heart } from "lucide-react";
 import API_BASE_URL from "./config";
 import "./StockList.css";
 import TopNav from "../components/TopNav";
+import API from "../api/api";
+
 
 const StockListPage = () => {
   const { categoryId } = useParams();
@@ -20,7 +22,6 @@ const StockListPage = () => {
 
   const PAGE_SIZE = 20;
 
-  /* ---------------- SEARCH DEBOUNCE ---------------- */
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedSearch(search);
@@ -35,7 +36,7 @@ const StockListPage = () => {
       setLoading(true);
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get(
+        const res = await API.get(
           `${API_BASE_URL}/api/stocks?page=${page}&size=${PAGE_SIZE}&search=${debouncedSearch}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -56,7 +57,7 @@ const StockListPage = () => {
     const fetchFavorites = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get(`${API_BASE_URL}/favorites`, {
+        const res = await API.get(`${API_BASE_URL}/favorites`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 

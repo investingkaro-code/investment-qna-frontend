@@ -5,6 +5,8 @@ import API_BASE_URL from "./config";
 import TopNav from "../components/TopNav";
 import { toast } from "react-toastify";
 import "./ReportPage.css";
+import API from "../api/api";
+
 
 const categorizeAnswers = (stock) => {
   const overview = [];
@@ -39,7 +41,7 @@ const ReportPage = () => {
     const fetchReports = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get(`${API_BASE_URL}/api/reports`, {
+        const res = await API.get(`${API_BASE_URL}/api/reports`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setReports(res.data);

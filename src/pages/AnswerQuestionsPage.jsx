@@ -6,6 +6,7 @@ import API_BASE_URL from "./config";
 import "./AnswerQuestions.css";
 import TopNav from "../components/TopNav";
 import { toast } from "react-toastify";
+import API from "../api/api";
 
 const AnswerQuestionsPage = () => {
   const { categoryId } = useParams();
@@ -33,7 +34,7 @@ const AnswerQuestionsPage = () => {
       setLoading(true);
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get(
+        const res = await API.get(
           `${API_BASE_URL}/api/questions/by-category/${categoryId}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -74,7 +75,7 @@ const AnswerQuestionsPage = () => {
       try {
         const token = localStorage.getItem("token");
 
-        const res = await axios.get(
+        const res = await API.get(
           `${API_BASE_URL}/api/answers/resume`,
           {
             params: {
@@ -140,7 +141,7 @@ const AnswerQuestionsPage = () => {
           answerText: text
         }))
       };
-
+    //await API.get
       await axios.post(
         `${API_BASE_URL}/api/answers/bulk`,
         payload,

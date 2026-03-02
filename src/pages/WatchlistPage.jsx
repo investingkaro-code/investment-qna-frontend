@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { TrendingUp } from "lucide-react";
 import TopNav from "../components/TopNav";
 import API_BASE_URL from "./config";
+import { TrendingUp, Heart } from "lucide-react";
+import API from "../api/api";
 
 const WatchlistPage = () => {
   const [watchlist, setWatchlist] = useState([]);
@@ -12,7 +13,7 @@ const WatchlistPage = () => {
     const fetchWatchlist = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get(`${API_BASE_URL}/favorites`, {
+        const res = await API.get(`${API_BASE_URL}/favorites`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -28,6 +29,25 @@ const WatchlistPage = () => {
 
     fetchWatchlist();
   }, []);
+
+  const removeFromWatchlist = async (symbol) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    await axios.delete(`${API_BASE_URL}/favorites/${symbol}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    // update UI instantly
+    setWatchlist((prev) =>
+      prev.filter((item) => item.stockSymbol !== symbol)
+    );
+  } catch (err) {
+    console.error("Failed to remove from watchlist", err);
+  }
+};
+
+
 
   return (
     <div className="page-bg">
@@ -62,6 +82,12 @@ const WatchlistPage = () => {
                     <div className="icon-bg">
                       <TrendingUp size={26} className="text-accent" />
                     </div>
+                    <Heart
+                        size={20}
+                        className="text-danger"
+                        style={{ cursor: "pointer" }}
+                        onClick={() => removeFromWatchlist(item.stockSymbol)}
+                      />
                   </div>
 
                   <div className="mt-4">

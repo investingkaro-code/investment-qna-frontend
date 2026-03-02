@@ -4,6 +4,8 @@ import DashboardLayout from "../layouts/DashboardLayout";
 import { Button, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import CategoryForm from "./CategoryForm";
 import "./CategoriesList.css";
+import API from "../api/api";
+
 
 
 export default function CategoriesList() {

@@ -65,46 +65,16 @@ const AnswerQuestionsPage = () => {
     fetchQuestions();
   }, [categoryId]);
 
-  // ===============================
-  // FETCH RESUME ANSWERS + PROGRESS
-  // ===============================
+  
   useEffect(() => {
-    const fetchResumeAnswers = async () => {
-      if (!stockSymbol) return;
-
-      try {
-        const token = localStorage.getItem("token");
-
-        const res = await API.get(
-          `${API_BASE_URL}/api/answers/resume`,
-          {
-            params: {
-              stockSymbol,
-              categoryId
-            },
-            headers: { Authorization: `Bearer ${token}` }
-          }
-        );
-
-        // Prefill answers
-        const prefilled = {};
-        res.data.answers.forEach(a => {
-          prefilled[a.questionId] = a.answerText;
-        });
-
-        setAnswers(prefilled);
-        setProgress({
-          answeredCount: res.data.answeredCount,
-          totalQuestions: res.data.totalQuestions
-        });
-
-      } catch (err) {
-        console.error("Failed to fetch resume answers", err);
-      }
-    };
-
-    fetchResumeAnswers();
-  }, [stockSymbol, categoryId]);
+    setAnswers({});
+    setProgress({
+      answeredCount: 0,
+      totalQuestions: Object.values(groupedQuestions)
+        .flat()
+        .length
+    });
+  }, [stockSymbol]);
 
   // ===============================
   // HANDLE ANSWER CHANGE (LIVE PROGRESS)
